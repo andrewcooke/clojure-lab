@@ -10,5 +10,5 @@
           (helper slow)))))
   (declare delayed)
   (let [slow (cons "" (lazy-seq delayed))]
-        (def delayed (helper slow))
-        delayed))
+    (def delayed (helper slow))
+    delayed))
