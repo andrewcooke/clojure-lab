@@ -14,3 +14,20 @@
   (let [slow (cons "" (lazy-seq delayed))]
     (def delayed (helper slow))
     delayed))
+
+(defn stream2 [seed]
+  (defn helper
+    ([slow] (helper (first slow) seed (rest slow)))
+    ([c fast slow] (concat (map #(str c %) fast) (lazy-seq (helper slow)))))
+  (declare delayed)
+  (let [slow (cons "" (lazy-seq delayed))]
+    (def delayed (helper slow))
+    delayed))
+
+(defn stream3 [seed]
+  (defn helper [slow]
+    (concat (map #(str (first slow) %) seed) (lazy-seq (helper (rest slow)))))
+  (declare delayed)
+  (let [slow (cons "" (lazy-seq delayed))]
+    (def delayed (helper slow))
+    delayed))
