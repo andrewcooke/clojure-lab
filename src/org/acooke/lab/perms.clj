@@ -31,3 +31,15 @@
   (let [slow (cons "" (lazy-seq delayed))]
     (def delayed (helper slow))
     delayed))
+
+; http://stackoverflow.com/questions/11567625/tying-the-knot-in-clojure-circular-references-without-explicit-ugly-mutation
+
+(defn stream4 [seed]
+  (defn helper [slow]
+    (apply concat (map (fn [c] (map #(str c %) seed)) slow)))
+  (apply concat (iterate helper seed)))
+
+(defn stream5 [seed]
+  (defn helper [slow]
+    (mapcat (fn [c] (map #(str c %) seed)) slow))
+  (apply concat (iterate helper seed)))
